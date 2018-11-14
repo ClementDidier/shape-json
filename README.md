@@ -2,11 +2,6 @@
 
 ## Installation
 
-Using npm:
-
-```js
-npm install shape-json
-```
 In Node.js:
 
 ```js
