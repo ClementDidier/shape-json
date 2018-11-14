@@ -118,6 +118,20 @@ console.log(shape.parse(input, template));
 }
 */
 ```
+## Flexible syntax
+Even if it is less useful, you have the possibility to 
+modify the text of the operations by keeping some important keywords. 
+This allows you to get a clearer model.
+```js
+let template = {
+    "currentTopic": "topic",
+    "$foreach item of (data.books), parse it and finally push it on section [library]": {
+        "bookIndex": "index",
+        "bookAuthor": "author",
+        "bookName": "name"
+    }
+}
+```
 
 ## Parsing nested json objects as input
 ```js
