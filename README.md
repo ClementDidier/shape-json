@@ -83,6 +83,46 @@ This is what you get:
   ]
 }
 ```
+## Parse nested json objects as input with a scheme defined as json
+```js
+/* Input */
+let input = {
+    topic: "sample of books",
+    data: {
+        books: [
+            { index: 1, author: 'bart', name: 'title1' },
+            { index: 2, author: 'arya', name: 'title2' },
+            { index: 3, author: 'gwen', name: 'title3' },
+            { index: 4, author: 'arya', name: 'title4' },
+            { index: 5, author: 'lara', name: 'title5' }
+        ]
+    }
+}
+
+/* Template */
+let template = {
+    "currentTopic": "topic",
+    "$foreach[library](data.books)": {
+        "bookIndex": "index",
+        "bookAuthor": "author",
+        "bookName": "name"
+    }
+}
+
+console.log(shape.parse(input, template));
+/*
+{ 
+    currentTopic: 'sample of books',
+    library: [
+        { bookIndex: 1, bookAuthor: 'bart', bookName: 'title1' },
+        { bookIndex: 2, bookAuthor: 'arya', bookName: 'title2' },
+        { bookIndex: 3, bookAuthor: 'gwen', bookName: 'title3' },
+        { bookIndex: 4, bookAuthor: 'arya', bookName: 'title4' },
+        { bookIndex: 5, bookAuthor: 'lara', bookName: 'title5' } 
+    ] 
+}
+*/
+```
 
 ## Parsing nested json objects as input
 ```js
