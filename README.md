@@ -1,13 +1,3 @@
-[![Build Status](https://api.travis-ci.org/ansteh/shape-json.svg?branch=master)](https://travis-ci.org/ansteh/shape-json)
-
-## Installation
-
-In Node.js:
-
-```js
-var shape = require('shape-json');
-```
-
 ## Parse input by a scheme defined as json
 Consider you want to transform the below json object, into a nested json object we used to from MEAN stack.
 ```js
@@ -125,12 +115,36 @@ This allows you to get a clearer model.
 ```js
 let template = {
     "currentTopic": "topic",
-    "$foreach item of (data.books), parse it and finally push it on section [library]": {
+    "$foreach item of (data.books) push it on [library] section": {
         "bookIndex": "index",
         "bookAuthor": "author",
         "bookName": "name"
     }
 }
+```
+
+## eval
+Templates allows "eval" keyword to be used in order to generate complex conditions from piece of code. 
+Currently, you can get values from your input data with the "$value" operator, where an simple example is shown just below.
+
+```js
+let input = { 
+  name: 'marc',
+  age: 25
+}
+
+let template = {
+  "$eval[isMarc]": "$value(name) === 'marc'",
+  "$eval[description]": "let a = $value(age); let n = $value(name); if(a > 18) n + ' is an adult'; else n + ' is a child'"
+}
+
+console.log(shape.parse(input, template));
+/*
+{ 
+  "isMarc": true,
+  "description": "marc is an adult" 
+}
+*/
 ```
 
 ## Parsing nested json objects as input
