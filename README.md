@@ -68,7 +68,26 @@ This is what you get:
   ]
 }
 ```
-## Parse nested json objects as input with a scheme defined as json
+
+## Flexible syntax
+Even if it is less useful, you have the possibility to 
+modify the text of the operations by keeping some important keywords. 
+This allows you to get a clearer model.
+```js
+let template = {
+    "currentTopic": "topic",
+    "$foreach item of (data.books) push it on [library] section": {
+        "bookIndex": "index",
+        "bookAuthor": "author",
+        "bookName": "name"
+    }
+}
+```
+
+## Operators
+### foreach
+This operator allows you to parse each element of a given array as input to another array with a new structure (defined in the template).
+
 ```js
 /* Input */
 let input = {
@@ -108,24 +127,10 @@ console.log(shape.parse(input, template));
 }
 */
 ```
-## Flexible syntax
-Even if it is less useful, you have the possibility to 
-modify the text of the operations by keeping some important keywords. 
-This allows you to get a clearer model.
-```js
-let template = {
-    "currentTopic": "topic",
-    "$foreach item of (data.books) push it on [library] section": {
-        "bookIndex": "index",
-        "bookAuthor": "author",
-        "bookName": "name"
-    }
-}
-```
 
-## eval
+### eval
 Templates allows "eval" keyword to be used in order to generate complex conditions from piece of code. 
-Currently, you can get values from your input data with the "$value" operator, where an simple example is shown just below.
+Currently, you can get values from your input data with the "$value" operator, where a simple example is shown just below.
 
 ```js
 let input = { 
@@ -145,6 +150,33 @@ console.log(shape.parse(input, template));
   "description": "marc is an adult" 
 }
 */
+```
+
+### or
+The templates allow you to use the keywords "or" to select the first non-null or non-indefinite occurrence. This is useful when you can receive multiple entries whose structures may differ.
+
+```js
+let input1 = {
+  name: 'marc'
+}
+
+let input2 = {
+  firstname: 'marc'
+}
+
+let input3 = {
+  lastname: 'marc'
+}
+
+let template = {
+  "$or[name]": [ 'name', 'firstname' ] // if "name" property is not defined, then we take "firstname" property
+}
+
+console.log(shape.parse(input1, template)); // { name: 'marc' }
+console.log(shape.parse(input2, template)); // { name: 'marc' }
+
+// If there is no valid property given, the "or" operator return "undefined", that result in ignoring template current property in the result  
+console.log(shape.parse(input3, template)); // { }
 ```
 
 ## Parsing nested json objects as input
