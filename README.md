@@ -1,3 +1,17 @@
+Forked from https://github.com/ansteh/shape-json
+
+# Extended Shape-JSON
+Shape-json package from **ansteh**, but with adding more fexibility and features :
+* Ignore unknown properties
+* Multiple arguments operations
+* Advanced arguments
+* Small fixes
+* More operations keywords
+  * `eval` Compute value from complex input
+  * `or` Select the first non-null or non-indefinite occurrence
+  * `foreach` Iterations simpler
+
+
 ## Parse input by a scheme defined as json
 Consider you want to transform the below json object, into a nested json object we used to from MEAN stack.
 ```js
