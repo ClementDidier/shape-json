@@ -10,6 +10,7 @@ Shape-json package from **ansteh**, but with adding more fexibility and features
   * `eval` Compute value from complex input
   * `or` Select the first non-null or non-indefinite occurrence
   * `foreach` Iterations simpler
+  * `if` Conditional value or nested object
 
 
 ## Parse input by a scheme defined as json
@@ -191,6 +192,30 @@ console.log(shape.parse(input2, template)); // { name: 'marc' }
 
 // If there is no valid property given, the "or" operator return "undefined", that result in ignoring template current property in the result  
 console.log(shape.parse(input3, template)); // { }
+```
+
+### if
+This operator allows you to make a value or a nested object conditional, according to a custom condition statement.
+
+```js
+let input1 = {
+  a: true,
+  c: { 'property1': 1 }
+}
+
+let input2 = {
+  a: true,
+  b: 1,
+  c: { }
+}
+
+let template = {
+  "$if(this.a == true && this.b == 1 && this.c !== null)[abcExists]": true
+}
+
+console.log(shape.parse(input1, template)); // {}
+
+console.log(shape.parse(input2, template)); // { "abcExists": true }
 ```
 
 ## Parsing nested json objects as input
